@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ecom.CustomerSite.Services.CategoryClient
 {
-	interface ICategoryApiClient
+	public interface ICategoryApiClient
 	{
 		Task<List<CategoryVm>> GetListCategory();
 	}

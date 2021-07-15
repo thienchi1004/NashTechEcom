@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace Ecom.CustomerSite.Services.CategoryClient
@@ -11,15 +12,15 @@ namespace Ecom.CustomerSite.Services.CategoryClient
 	{
 		private readonly HttpClient _client;
 
-		public CategoryApiClient(HttpClient client)
+		public CategoryApiClient(IHttpClientFactory factory)
 		{
-			_client = client;
+			_client = factory.CreateClient("host");
 		}
 		public async Task<List<CategoryVm>> GetListCategory()
 		{
 			var response = await _client.GetAsync("api/categories");
 			response.EnsureSuccessStatusCode();
-			return await response.Content.ReadAsAsync<List<CategoryVm>>();
+			return await response.Content.ReadFromJsonAsync<List<CategoryVm>>();
 		}
 	}
 }

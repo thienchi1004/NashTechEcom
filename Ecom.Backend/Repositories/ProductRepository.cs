@@ -91,5 +91,10 @@ namespace Ecom.Backend.Repositories
 			else
 			{ return null; }
 		}
+
+		public List<Product> GetFeatureProducts(int number)
+		{
+			return _context.Products.OrderByDescending(p => p.RateStar).Take(number).ToList();
+		}
 	}
 }

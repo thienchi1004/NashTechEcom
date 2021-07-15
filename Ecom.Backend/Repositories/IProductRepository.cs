@@ -14,6 +14,7 @@ namespace Ecom.Backend.Repositories
 		Product Update(Product product);
 		bool Delete(Product product);
 		List<Product> GetByCategory(int id);
+		List<Product> GetFeatureProducts(int number);
 
 	}
 }

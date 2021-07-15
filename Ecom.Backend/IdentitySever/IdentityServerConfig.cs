@@ -41,9 +41,9 @@ namespace Ecom.Backend.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "http://localhost:63084/signin-oidc" },
+                    RedirectUris = { Startup.ClientUrls["mvc"]+ "/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "http://localhost:63084/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { Startup.ClientUrls["mvc"]+ "/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {

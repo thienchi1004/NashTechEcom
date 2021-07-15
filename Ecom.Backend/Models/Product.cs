@@ -25,6 +25,6 @@ namespace Ecom.Backend.Models
         public int? CategoryID { get; set; }
         public Category Category { get; set; }
         public IEnumerable<Rating> Ratings { get; set; }
-        public int Value { get; set; }
+
     }
 }

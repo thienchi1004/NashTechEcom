@@ -20,6 +20,8 @@ namespace Ecom.Backend
 {
 	public class Startup
 	{
+		public static Dictionary<string, string> ClientUrls;
+
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
@@ -30,6 +32,11 @@ namespace Ecom.Backend
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			ClientUrls = new Dictionary<string, string>()
+			{
+				["react"] = Configuration["ClientUrls:react"],
+				["mvc"] = Configuration["ClientUrls:mvc"],
+			};
 			services.AddDbContext<ApplicationDbContext>(options =>
 			   options.UseSqlServer(
 				   Configuration.GetConnectionString("DefaultConnection")));
@@ -50,6 +57,24 @@ namespace Ecom.Backend
 			 .AddAspNetIdentity<User>()
 			 .AddDeveloperSigningCredential();
 
+			//authen
+			services
+				.AddAuthentication()
+				.AddLocalApi("Bearer", options =>
+				{
+					options.ExpectedScope = "assignmentecommerce.api";
+				});
+
+			//author
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy("Bearer", policy =>
+				{
+					policy.AddAuthenticationSchemes("Bearer");
+					policy.RequireAuthenticatedUser();
+				});
+
+			});
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{
@@ -94,6 +119,7 @@ namespace Ecom.Backend
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecom.Backend v1"));
 			}
 
+			app.UseStaticFiles();
 			app.UseRouting();
 
 			app.UseIdentityServer();

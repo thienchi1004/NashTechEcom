@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ecom.CustomerSite.Services.ProductClient;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,21 @@ namespace Ecom.CustomerSite.Controllers
 {
 	public class ProductController : Controller
 	{
-		public IActionResult Index()
+		private readonly IProductApiClient _productApi;
+		public ProductController(IProductApiClient productApi)
 		{
-			return View();
+			_productApi = productApi;
 		}
-		public IActionResult ProductDetail()
+		public async Task<IActionResult> IndexAsync()
 		{
-			return View();
+			var products = await _productApi.GetListProduct();
+			return View(products);
+		}
+		[Route("/detail")]
+		public async Task<IActionResult> ProductDetailAsync(int id)
+		{
+			var product = await _productApi.GetById(id);
+			return View(product);
 		}
 	}
 }

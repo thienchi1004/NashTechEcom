@@ -29,4 +29,34 @@
     <ProjectReference Include="..\Ecom.Shared\Ecom.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\men01.jpg" />
+    <None Include="wwwroot\images\men02.jpg" />
+    <None Include="wwwroot\images\men03.jpg" />
+    <None Include="wwwroot\images\men04.jpg" />
+    <None Include="wwwroot\images\men05.jpg" />
+    <None Include="wwwroot\images\men06.jpg" />
+    <None Include="wwwroot\images\men07.jpg" />
+    <None Include="wwwroot\images\men08.jpg" />
+    <None Include="wwwroot\images\men09.jpg" />
+    <None Include="wwwroot\images\quan01.jpg" />
+    <None Include="wwwroot\images\quan02.jpg" />
+    <None Include="wwwroot\images\quan03.jpg" />
+    <None Include="wwwroot\images\quan04.jpg" />
+    <None Include="wwwroot\images\quan05.jpg" />
+    <None Include="wwwroot\images\quan06.jpg" />
+    <None Include="wwwroot\images\quan07.jpg" />
+    <None Include="wwwroot\images\quan08.jpg" />
+    <None Include="wwwroot\images\quan09.jpg" />
+    <None Include="wwwroot\images\somi01.jpg" />
+    <None Include="wwwroot\images\somi02.jpg" />
+    <None Include="wwwroot\images\somi03.jpg" />
+    <None Include="wwwroot\images\somi04.jpg" />
+    <None Include="wwwroot\images\somi05.jpg" />
+    <None Include="wwwroot\images\somi06.jpg" />
+    <None Include="wwwroot\images\somi07.jpg" />
+    <None Include="wwwroot\images\somi08.jpg" />
+    <None Include="wwwroot\images\somi09.jpg" />
+  </ItemGroup>
+
 </Project>

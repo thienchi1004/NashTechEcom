@@ -20,7 +20,7 @@ namespace Ecom.Backend.Controllers
 			_productRepo = productRepo;
 		}
 
-		[HttpGet("GetListProduct")]
+		[HttpGet]
 		public ActionResult<List<ProductVm>> GetListProduct(int categoryId = 0)
 		{
 			List<Product> listProduct;
@@ -48,7 +48,7 @@ namespace Ecom.Backend.Controllers
 		}
 		
 
-		[HttpGet("GetById/{id}")]
+		[HttpGet("{id}")]
 		public ActionResult<ProductDetailVm> GetById(int id)
 		{
 			var product = _productRepo.GetById(id);
@@ -65,15 +65,14 @@ namespace Ecom.Backend.Controllers
 				CategoryID = product.CategoryID,
 				CategoryName = product.Category.CategoryName,
 				ProductDescription = product.ProductDescription,
-				RateStar = product.RateStar,
-				Value = product.Value
+				RateStar = product.RateStar
 
 			};
 			return Ok(productVm);
 		}
 
 
-		[HttpPost("Create")]
+		[HttpPost]
 		public ActionResult<ProductDetailVm> Create(ProductDetailVm productDetailVm)
 		{
 			var product = new Product()
@@ -95,7 +94,7 @@ namespace Ecom.Backend.Controllers
 				return Problem("Can't create product");
 			}	
 		}
-		[HttpPut("Update/{id}")]
+		[HttpPut("{id}")]
 		public ActionResult<ProductDetailVm> Update(ProductDetailVm productDetailVm, int id)
 		{
 			if (id != productDetailVm.ProductID)
@@ -125,7 +124,7 @@ namespace Ecom.Backend.Controllers
 		}
 
 
-		[HttpDelete("Delete/{id}")]
+		[HttpDelete("{id}")]
 		public ActionResult Delete(int id)
 		{
 			var productExist = _productRepo.GetById(id);
@@ -145,6 +144,29 @@ namespace Ecom.Backend.Controllers
 			{
 				return NotFound();		
 			}
+		}
+
+		[HttpGet("feature/{number}")]
+		public ActionResult<List<ProductVm>> GetFeatureProducts(int number)
+		{
+			if (number <= 0)
+			{
+				return BadRequest();
+			}
+			List<Product> listProduct = _productRepo.GetFeatureProducts(number);
+			var listProductVm = new List<ProductVm>();
+			foreach (var item in listProduct)
+			{
+				var productVm = new ProductVm()
+				{
+					ProductID = item.ProductID,
+					ProductName = item.ProductName,
+					Image = item.Image,
+					Price = item.Price
+				};
+				listProductVm.Add(productVm);
+			}
+			return Ok(listProductVm);
 		}
 
 	}
