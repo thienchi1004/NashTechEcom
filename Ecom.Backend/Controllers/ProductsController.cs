@@ -18,11 +18,9 @@ namespace Ecom.Backend.Controllers
 		public ProductsController(IProductRepository productRepo)
 		{
 			_productRepo = productRepo;
-
-
 		}
 
-		[HttpGet]
+		[HttpGet("GetListProduct")]
 		public ActionResult<List<ProductVm>> GetListProduct(int categoryId = 0)
 		{
 			List<Product> listProduct;
@@ -50,7 +48,7 @@ namespace Ecom.Backend.Controllers
 		}
 		
 
-		[HttpGet("{id}")]
+		[HttpGet("GetById/{id}")]
 		public ActionResult<ProductDetailVm> GetById(int id)
 		{
 			var product = _productRepo.GetById(id);
@@ -75,7 +73,7 @@ namespace Ecom.Backend.Controllers
 		}
 
 
-		[HttpPost]
+		[HttpPost("Create")]
 		public ActionResult<ProductDetailVm> Create(ProductDetailVm productDetailVm)
 		{
 			var product = new Product()
@@ -97,7 +95,7 @@ namespace Ecom.Backend.Controllers
 				return Problem("Can't create product");
 			}	
 		}
-		[HttpPut("{id}")]
+		[HttpPut("Update/{id}")]
 		public ActionResult<ProductDetailVm> Update(ProductDetailVm productDetailVm, int id)
 		{
 			if (id != productDetailVm.ProductID)
@@ -127,7 +125,7 @@ namespace Ecom.Backend.Controllers
 		}
 
 
-		[HttpDelete("{id}")]
+		[HttpDelete("Delete/{id}")]
 		public ActionResult Delete(int id)
 		{
 			var productExist = _productRepo.GetById(id);
