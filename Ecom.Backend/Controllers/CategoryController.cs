@@ -37,7 +37,7 @@ namespace Ecom.Backend.Controllers
 			return Ok(categoryVm);
 		}
 
-		[HttpGet("category")]
+		[HttpGet]
 		public ActionResult<CategoryVm> GetListCategory()
 		{
 			List<Category> listCategory = _cateRepo.GetListCategory();

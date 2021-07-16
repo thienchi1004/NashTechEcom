@@ -1,4 +1,5 @@
-﻿using Ecom.CustomerSite.Services.ProductClient;
+﻿using Ecom.CustomerSite.Services.CategoryClient;
+using Ecom.CustomerSite.Services.ProductClient;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,30 @@ namespace Ecom.CustomerSite.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IProductApiClient _productApi;
-		public ProductController(IProductApiClient productApi)
+		private readonly ICategoryApiClient _categoryApi;
+
+		public ProductController(IProductApiClient productApi, ICategoryApiClient categoryApi)
 		{
 			_productApi = productApi;
+			_categoryApi = categoryApi;
 		}
-		public async Task<IActionResult> IndexAsync()
+
+		[Route("/product")]
+		public async Task<IActionResult> IndexAsync(int id = 0)
 		{
 			var products = await _productApi.GetListProduct();
+
+			if (id > 0)
+			{
+				products = await _productApi.GetByCategory(id);
+			}
+
+			var categories = await _categoryApi.GetListCategory();
+			ViewBag.Categories = categories;
+
 			return View(products);
 		}
 
-		[Route("/category/{id}")]
-		public async Task<IActionResult> Category(int id)
-		{
-			var cateroties = await _productApi.GetByCategory(id);
-			return View(cateroties);
-		}
 		[Route("/detail")]
 		public async Task<IActionResult> ProductDetailAsync(int id)
 		{

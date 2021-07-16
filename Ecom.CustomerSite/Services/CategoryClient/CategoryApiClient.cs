@@ -18,7 +18,7 @@ namespace Ecom.CustomerSite.Services.CategoryClient
 		}
 		public async Task<List<CategoryVm>> GetListCategory()
 		{
-			var response = await _client.GetAsync("api/categories");
+			var response = await _client.GetAsync("api/category");
 			response.EnsureSuccessStatusCode();
 			return await response.Content.ReadFromJsonAsync<List<CategoryVm>>();
 		}

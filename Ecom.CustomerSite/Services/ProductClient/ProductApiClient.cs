@@ -36,7 +36,7 @@ namespace Ecom.CustomerSite.Services.ProductClient
 
 		public async Task<List<ProductVm>> GetByCategory(int id)
 		{
-			var reponse = await _client.GetAsync(routerName +"?category=" + id);
+			var reponse = await _client.GetAsync(routerName +"?categoryId=" + id);
 			reponse.EnsureSuccessStatusCode();
 			return await reponse.Content.ReadFromJsonAsync<List<ProductVm>>();
 		}
