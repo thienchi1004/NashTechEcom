@@ -10,5 +10,7 @@ namespace Ecom.Shared.ViewModels
 		public string ProductName { get; set; }
 		public float Price { get; set; }
 		public string Image { get; set; }
+		public int? CategoryID { get; set; }
+		public string CategoryName { get; set; }
 	}
 }

@@ -19,6 +19,13 @@ namespace Ecom.CustomerSite.Controllers
 			var products = await _productApi.GetListProduct();
 			return View(products);
 		}
+
+		[Route("/category/{id}")]
+		public async Task<IActionResult> Category(int id)
+		{
+			var cateroties = await _productApi.GetByCategory(id);
+			return View(cateroties);
+		}
 		[Route("/detail")]
 		public async Task<IActionResult> ProductDetailAsync(int id)
 		{

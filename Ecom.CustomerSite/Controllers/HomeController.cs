@@ -1,4 +1,6 @@
 ﻿using Ecom.CustomerSite.Models;
+using Ecom.CustomerSite.Services.CategoryClient;
+using Ecom.CustomerSite.Services.ProductClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,22 +14,25 @@ namespace Ecom.CustomerSite.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly IProductApiClient _productApi;
+		private readonly ICategoryApiClient _categoryApi;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, IProductApiClient productApi, ICategoryApiClient categoryApi )
 		{
 			_logger = logger;
+			_productApi = productApi;
+			_categoryApi = categoryApi;
 		}
 
-		public IActionResult Index()
+		public async  Task<ActionResult> Index()
 		{
-			return View();
+			var products = await _productApi.GetListProduct();
+
+			var hotProducts = await _productApi.GetFeatureProduct();
+			ViewBag.HotProducts = hotProducts;
+			return View(products);
 		}
 		public IActionResult Contact()
-		{
-			return View();
-		}
-
-		public IActionResult Privacy()
 		{
 			return View();
 		}

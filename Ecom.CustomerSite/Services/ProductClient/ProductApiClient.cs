@@ -43,7 +43,7 @@ namespace Ecom.CustomerSite.Services.ProductClient
 
 		public async Task<List<ProductVm>> GetFeatureProduct()
 		{
-			var reponse = await _client.GetAsync(routerName + "/feature/" + 5);
+			var reponse = await _client.GetAsync(routerName + "/feature/" + 4);
 			reponse.EnsureSuccessStatusCode();
 			return await reponse.Content.ReadFromJsonAsync<List<ProductVm>>();
 		}
