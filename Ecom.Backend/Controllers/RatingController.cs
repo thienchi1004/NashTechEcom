@@ -51,7 +51,6 @@ namespace Ecom.Backend.Controllers
             {
                 var ratingVm = new RatingVm()
                 {
-                    IdRating = item.IdRating,
                     Comment= item.Comment,
                     ProductID = item.ProductID,
                     DateRating = DateTime.Now,

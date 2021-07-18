@@ -30,10 +30,13 @@ namespace Ecom.Backend.Repositories
 			}
 		}
 
-		public bool Delete(Category category)
+		public bool Delete(int id)
 		{
+			var category = _context.Categories.Find(id);
 			_context.Categories.Remove(category);
+
 			int result = _context.SaveChanges();
+
 			if (result > 0)
 			{ return true; }
 			else

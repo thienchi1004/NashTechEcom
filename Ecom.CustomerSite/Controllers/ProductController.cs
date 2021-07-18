@@ -1,5 +1,7 @@
 ﻿using Ecom.CustomerSite.Services.CategoryClient;
 using Ecom.CustomerSite.Services.ProductClient;
+using Ecom.Shared.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,23 @@ namespace Ecom.CustomerSite.Controllers
 		{
 			var product = await _productApi.GetById(id);
 			return View(product);
+		}
+
+		[HttpPost]
+		[Authorize]
+		public async Task<IActionResult> PostReview(int rate, string comments, int productId)
+		{
+			var rating = new RatingDetailVm
+			{
+
+				Comment = comments,
+				Value = rate,
+				ProductID = productId
+			};
+
+			await _productApi.PostReview(rating);
+
+			return RedirectToAction("Detail", new { id = productId });
 		}
 	}
 }

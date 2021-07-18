@@ -12,7 +12,7 @@ namespace Ecom.Backend.Repositories
 		Category GetById(int id);
 		Category Create(Category newCategory);
 		Category Update(Category category);
-		bool Delete(Category category);
+		bool Delete(int id);
 
 	}
 }

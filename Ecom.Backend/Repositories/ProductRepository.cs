@@ -1,5 +1,6 @@
 ﻿using Ecom.Backend.Data;
 using Ecom.Backend.Models;
+using Ecom.Shared.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,9 @@ namespace Ecom.Backend.Repositories
 	
 		}
 
-		public bool Delete(Product product)
+		public bool Delete(int id)
 		{
-
+			var product = _context.Products.Find(id);
 			_context.Products.Remove(product);
 			int result = _context.SaveChanges();
 			if (result > 0)

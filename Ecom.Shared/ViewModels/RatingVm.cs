@@ -11,5 +11,8 @@ namespace Ecom.Shared.ViewModels
         public string Comment { get; set; }
         public int ProductID { get; set; }
         public DateTime DateRating { get; set; }
+        public string UserName { get; set; }
+        public string UserId { get; set; }
+
     }
 }

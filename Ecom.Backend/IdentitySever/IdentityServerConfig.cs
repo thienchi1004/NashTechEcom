@@ -62,9 +62,9 @@ namespace Ecom.Backend.IdentityServer
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"http://localhost:63084/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"http://localhost:63084/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"http://localhost:63084/" },
+                    RedirectUris =           { Startup.ClientUrls["backend"] + "/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { Startup.ClientUrls["backend"] + "/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { Startup.ClientUrls["backend"] },
 
                     AllowedScopes = new List<string>
                     {

@@ -12,7 +12,6 @@ namespace Ecom.Backend.Repositories
 	{
         private readonly ApplicationDbContext _context;
 
-
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -21,7 +20,6 @@ namespace Ecom.Backend.Repositories
         public async Task<IEnumerable<IdentityUser>> GetUser()
         {
             var user = await _context.Users.AsNoTracking().ToListAsync();
-
             return user;
         }
     }

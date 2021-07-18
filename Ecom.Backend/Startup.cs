@@ -1,9 +1,12 @@
+
 using Ecom.Backend.Data;
 using Ecom.Backend.IdentityServer;
+using Ecom.Backend.IdentitySever;
 using Ecom.Backend.Models;
 using Ecom.Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Ecom.Backend
@@ -36,14 +40,17 @@ namespace Ecom.Backend
 			{
 				["react"] = Configuration["ClientUrls:react"],
 				["mvc"] = Configuration["ClientUrls:mvc"],
+				["backend"] = Configuration["ClientUrls:backend"],
 			};
 			services.AddDbContext<ApplicationDbContext>(options =>
 			   options.UseSqlServer(
 				   Configuration.GetConnectionString("DefaultConnection")));
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 			services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+			   .AddRoles<IdentityRole>()
 			   .AddEntityFrameworkStores<ApplicationDbContext>();
-
+			services.AddMemoryCache();
 			services.AddIdentityServer(options =>
 			{
 				options.Events.RaiseErrorEvents = true;
@@ -55,6 +62,7 @@ namespace Ecom.Backend
 			 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
 			 .AddInMemoryClients(IdentityServerConfig.Clients)
 			 .AddAspNetIdentity<User>()
+			 .AddProfileService<CustomProfileService>()
 			 .AddDeveloperSigningCredential();
 
 			//authen
@@ -75,7 +83,12 @@ namespace Ecom.Backend
 				});
 
 			});
-			services.AddControllers();
+			services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+			);
+			services.AddRazorPages();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Assignment Ecommerce API", Version = "v1" });
@@ -105,6 +118,9 @@ namespace Ecom.Backend
 			});
 
 			services.AddRepository();
+			services.AddTransient<IProductService, ProductService>();
+			services.AddTransient<ICategoryService, CategoryService>();
+
 
 		}
 
@@ -115,9 +131,14 @@ namespace Ecom.Backend
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecom.Backend v1"));
 			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
+			app.UseHttpsRedirection();
 
 			app.UseStaticFiles();
 			app.UseRouting();
@@ -137,6 +158,7 @@ namespace Ecom.Backend
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapRazorPages();
 			});
 		}
 	}

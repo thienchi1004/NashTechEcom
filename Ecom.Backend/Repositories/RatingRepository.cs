@@ -15,8 +15,6 @@ namespace Ecom.Backend.Repositories
 		public RatingRepository(ApplicationDbContext context)
 		{
 			_context = context;
-
-
 		}
 
 		
@@ -25,6 +23,13 @@ namespace Ecom.Backend.Repositories
 		{
 			 _context.Ratings.Add(newRating);
 			await _context.SaveChangesAsync();
+
+			var sumRating = _context.Ratings.Where(x => x.ProductID.Equals(newRating.ProductID)).Average(x => x.Value);
+
+			var product = await _context.Products.FindAsync(newRating.ProductID);
+			product.RateStar = Convert.ToInt32(sumRating);
+			await _context.SaveChangesAsync();
+
 			return newRating;
 	
 		}	

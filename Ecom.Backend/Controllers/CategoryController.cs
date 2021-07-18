@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecom.Shared.ViewModels;
 using Ecom.Backend.Models;
+using Ecom.Backend.Services;
 
 namespace Ecom.Backend.Controllers
 {
@@ -16,63 +17,42 @@ namespace Ecom.Backend.Controllers
 	public class CategoryController : ControllerBase
 	{
 		private readonly ICategoryRepository _cateRepo;
-		public CategoryController(ICategoryRepository cateRepo)
+		private readonly ICategoryService _categoryService;
+
+		public CategoryController(ICategoryRepository cateRepo, ICategoryService categoryService)
 		{
 			_cateRepo = cateRepo;
+			_categoryService = categoryService;
 		}
 
 		[HttpGet("{id}")]
 		public ActionResult<CategoryVm> GetById(int id)
 		{
-			var category = _cateRepo.GetById(id);
+			var category = _categoryService.GetById(id);
 			if (category == null)
 			{
 				return NotFound();
 			}
-			var categoryVm = new CategoryVm()
-			{
-				CategoryID = category.CategoryID,
-				CategoryName=category.CategoryName
-			};
-			return Ok(categoryVm);
+			return Ok(category);
 		}
 
 		[HttpGet]
 		public ActionResult<CategoryVm> GetListCategory()
 		{
-			List<Category> listCategory = _cateRepo.GetListCategory();
-			
-			var listCategoryVm = new List<CategoryVm>();
-			foreach (var item in listCategory)
-			{
-				var categoryVm = new CategoryVm()
-				{
-					CategoryID = item.CategoryID,
-					CategoryName = item.CategoryName		
-				};
-				listCategoryVm.Add(categoryVm);
-			}
-			return Ok(listCategoryVm);
+			List<CategoryVm> listCategory = _categoryService.GetListCategory();
+			return Ok(listCategory);
 		}
 
 
 		[HttpPost]
-		public ActionResult<CategoryVm> Create(CategoryVm categoryVm)
+		public ActionResult<Category> Create(CategoryCreateVm newCategory)
 		{
-			var category = new Category()
+			var result = _categoryService.Create(newCategory);
+			if (result == null)
 			{
-				CategoryID = categoryVm.CategoryID,
-				CategoryName = categoryVm.CategoryName
-			};
-			var result = _cateRepo.Create(category);
-			if (result != null)
-			{
-				return Created("api/category", result.CategoryID);
+				return BadRequest();
 			}
-			else
-			{
-				return Problem("Can't create category");
-			}
+			return result;
 		}
 
 
@@ -82,7 +62,7 @@ namespace Ecom.Backend.Controllers
 		[HttpPut("{id}")]
 		public ActionResult<CategoryVm> Update(CategoryVm categoryVm, int id)
 		{
-			if(id != categoryVm.CategoryID)
+			if (id != categoryVm.CategoryID)
 			{
 				return BadRequest("Parameter was invalid");
 			}
@@ -93,7 +73,7 @@ namespace Ecom.Backend.Controllers
 			}
 			categorytExist.CategoryID = categoryVm.CategoryID;
 			categorytExist.CategoryName = categoryVm.CategoryName;
-			
+
 			var result = _cateRepo.Update(categorytExist);
 			if (result != null)
 			{
@@ -109,24 +89,15 @@ namespace Ecom.Backend.Controllers
 		[HttpDelete("{id}")]
 		public ActionResult Delete(int id)
 		{
-			var categoryExist = _cateRepo.GetById(id);
-			if (categoryExist != null)
+			var result = _categoryService.Delete(id);
+			if (result == true)
 			{
-				var result = _cateRepo.Delete(categoryExist);
-				if (result)
-				{
-					return Ok();
-				}
-				else
-				{
-					return Problem("Can't delete category");
-				}
+				return Ok();
 			}
 			else
 			{
-				return NotFound();
+				return Problem("Can't delete category");
 			}
 		}
-
 	}
 }
