@@ -32,14 +32,28 @@
 				<div class="single-product-details">
 					<h2>@Model.ProductName @Model.CategoryName</h2>
 					<h5>@Model.Price $</h5>
-					<p class="available-stock"><span> More than 20 available / <a href="#">8 sold </a></span>
+					<div class="rate">
+						<input type="radio" id="star5" name="rate" value="5" />
+						<label for="star5" title="text">5 stars</label>
+						<input type="radio" id="star4" name="rate" value="4" />
+						<label for="star4" title="text">4 stars</label>
+						<input type="radio" id="star3" name="rate" value="3" />
+						<label for="star3" title="text">3 stars</label>
+						<input type="radio" id="star2" name="rate" value="2" />
+						<label for="star2" title="text">2 stars</label>
+						<input type="radio" id="star1" name="rate" value="1" />
+						<label for="star1" title="text">1 star</label>
+					</div>
+					<br />
+
 					<p>
 						<h4>Description:</h4>
 					<p>
 						@Model.ProductDescription
 					</p>
-					<ul>
-						<li>
+
+					
+						@*<li>
 							<div class="form-group size-st">
 								<label class="size-label">Size</label>
 								<select id="basic" class="selectpicker show-tick form-control">
@@ -53,87 +67,115 @@
 									<option value="1">4XL</option>
 								</select>
 							</div>
-						</li>
+						</li>*@
 						<li>
 							<div class="form-group quantity-box">
 								<label class="control-label">Quantity</label>
 								<input class="form-control" value="0" min="0" max="20" type="number">
 							</div>
 						</li>
-					</ul>
+					
 
 					<div class="price-box-bar">
 						<div class="cart-and-bay-btn">
 							<a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
-							@*<a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>*@
 						</div>
 					</div>
 
-					<div class="add-to-btn">
-						@*<div class="add-comp">
-				<a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
-				<a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>
-			</div>*@
-						<div class="share-bar">
-							<a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-							<a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
-							<a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-							<a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
-							<a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+					@*<div class="add-to-btn">
+			<div class="share-bar">
+				<a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+				<a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
+				<a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+				<a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
+				<a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+			</div>
+		</div>*@
+					<hr size="5px" align="center" color="red" />
+					<h1>Feedback</h1>
+					<div class="row pt-3">
+						<div class="col-md-12">
+							<a class="btn btn-danger" onclick="showReview()" href="#reviews-anchor" id="open-review-box">Write a Review</a>
+						</div>
+						<br><br>
+						<div class="row" id="post-review-box" style="display:none; margin-left: 2px;">
+							<div class="col-md-12">
+								<form accept-charset="UTF-8">
+									<input id="ratings-hidden" name="rating" type="hidden">
+									<input class="form-control animated" name="userName" placeholder="Enter your name..."></input>
+									<br>
+									<textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+									<br>
+									<div class="rate">
+										<input type="radio" id="star5" name="rate" value="5" />
+										<label for="star5" title="text">5 stars</label>
+										<input type="radio" id="star4" name="rate" value="4" />
+										<label for="star4" title="text">4 stars</label>
+										<input type="radio" id="star3" name="rate" value="3" />
+										<label for="star3" title="text">3 stars</label>
+										<input type="radio" id="star2" name="rate" value="2" />
+										<label for="star2" title="text">2 stars</label>
+										<input type="radio" id="star1" name="rate" value="1" />
+										<label for="star1" title="text">1 star</label>
+									</div>
+									<div class="text-right">
+										<div class="stars starrr" data-rating="0"></div>
+										<a class="btn btn-danger btn-sm" href="#" id="close-review-box" style="display:none; margin-right: 10px;"></a>
+										<button class="btn btn-success btn-lg" type="submit" onclick="offReview()">Save</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<hr size="2px" align="center" color="red" />
+							<div class="review-block">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="review-block-name"><a href="#"><strong> Kevin </strong></a></div>
+										<div class="review-block-date">January 29, 2016</div>
+									</div>
+									<div class="col-sm-9">
+										<div class="rate">
+											<input type="radio" id="star5" name="rate" value="5" />
+											<label for="star5" title="text">5 stars</label>
+											<input type="radio" id="star4" name="rate" value="4" />
+											<label for="star4" title="text">4 stars</label>
+											<input type="radio" id="star3" name="rate" value="3" />
+											<label for="star3" title="text">3 stars</label>
+											<input type="radio" id="star2" name="rate" value="2" />
+											<label for="star2" title="text">2 stars</label>
+											<input type="radio" id="star1" name="rate" value="1" />
+											<label for="star1" title="text">1 star</label>
+										</div>
+										<br>
+										<br>
+										<div class="review-block-description"> That's very good. asd  asd asd asd asd asdj addadad asd asdasd asd da dsa asd asd asd asd asdasd asda asdasd asdasd sdf sds sd sd  sdsdsd asd asd asdasd asds </div>
+									</div>
+								</div>
+								<hr size="5px" align="center" color="red" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 </div>
 <!-- End Cart -->
-<div class="row">
-	<div class="col-lg-12">
-		<div class="container">
-			<h1>What do you think about product?</h1>
-			<div class="container">
-				<div class="post">
-					<div class="text">Thanks for rating us!</div>
-					<div class="edit">EDIT</div>
-				</div>
-				<div class="star-widget">
-					<input type="radio" name="rate" id="rate-5">
-					<label for="rate-5" class="fas fa-star"></label>
-					<input type="radio" name="rate" id="rate-4">
-					<label for="rate-4" class="fas fa-star"></label>
-					<input type="radio" name="rate" id="rate-3">
-					<label for="rate-3" class="fas fa-star"></label>
-					<input type="radio" name="rate" id="rate-2">
-					<label for="rate-2" class="fas fa-star"></label>
-					<input type="radio" name="rate" id="rate-1">
-					<label for="rate-1" class="fas fa-star"></label>
-					<form action="#">
-						<header></header>
-						<div class="textarea">
-							<textarea cols="30" placeholder="Describe your experience.."></textarea>
-						</div>
-						<div class="btn">
-							<button type="submit">Post</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <script>
-      const btn = document.querySelector("button");
-      const post = document.querySelector(".post");
-      const widget = document.querySelector(".star-widget");
-      const editBtn = document.querySelector(".edit");
-      btn.onclick = ()=>{
-        widget.style.display = "none";
-        post.style.display = "block";
-        editBtn.onclick = ()=>{
-          widget.style.display = "block";
-          post.style.display = "none";
-        }
-        return false;
-      }
+	function showReview() {
+		const review = document.getElementById("post-review-box")
+		review.style.display = "block"
+	}
+	function offReview() {
+		const review = document.getElementById("post-review-box")
+		review.style.display = "none"
+	}
+
 </script>
+
+

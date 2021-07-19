@@ -13,6 +13,6 @@ namespace Ecom.CustomerSite.Services.ProductClient
 		Task<List<ProductVm>> GetByCategory(int id);
 		Task<List<ProductVm>> GetFeatureProduct();
 		Task<IEnumerable<RatingVm>> GetRatingsByProductId(int id);
-		Task<RatingDetailVm> PostReview(RatingDetailVm newRating);
+		//Task<RatingVm> PostReview(RatingVm newRating);
 	}
 }

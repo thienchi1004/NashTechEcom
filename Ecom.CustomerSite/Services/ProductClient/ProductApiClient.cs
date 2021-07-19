@@ -55,11 +55,11 @@ namespace Ecom.CustomerSite.Services.ProductClient
 			return await reponse.Content.ReadFromJsonAsync<IEnumerable<RatingVm>>();
 		}
 
-		public async Task<RatingDetailVm> PostReview(RatingDetailVm newRating)
-		{
-			var reponse = await _client.GetAsync(routerName + "/rating");
-			reponse.EnsureSuccessStatusCode();
-			return await reponse.Content.ReadFromJsonAsync<RatingDetailVm>();
-		}
+		//public async Task<RatingVm> PostReview(RatinglVm newRating)
+		//{
+		//	var reponse = await _client.GetAsync(routerName + "/rating");
+		//	reponse.EnsureSuccessStatusCode();
+		//	return await reponse.Content.ReadFromJsonAsync<RatinglVm>();
+		//}
 	}
 }

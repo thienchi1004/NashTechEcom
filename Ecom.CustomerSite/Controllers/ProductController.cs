@@ -44,21 +44,21 @@ namespace Ecom.CustomerSite.Controllers
 			return View(product);
 		}
 
-		[HttpPost]
-		[Authorize]
-		public async Task<IActionResult> PostReview(int rate, string comments, int productId)
-		{
-			var rating = new RatingDetailVm
-			{
+		//[HttpPost]
+		//[Authorize]
+		//public async Task<IActionResult> PostReview(int rate, string comments, int productId)
+		//{
+		//	var rating = new RatingDetailVm
+		//	{
 
-				Comment = comments,
-				Value = rate,
-				ProductID = productId
-			};
+		//		Comment = comments,
+		//		Value = rate,
+		//		ProductID = productId
+		//	};
 
-			await _productApi.PostReview(rating);
+		//	await _productApi.PostReview(rating);
 
-			return RedirectToAction("Detail", new { id = productId });
-		}
+		//	return RedirectToAction("Detail", new { id = productId });
+		//}
 	}
 }
