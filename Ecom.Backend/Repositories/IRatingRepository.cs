@@ -9,7 +9,7 @@ namespace Ecom.Backend.Repositories
 {
 	public interface IRatingRepository
 	{
-		Task<IEnumerable<Rating>> GetRatingsByProductId(int id);
-		Task<Rating> Create(Rating newRating);
+		List<Rating> GetRatingsByProductId(int id);
+		Rating Create(Rating newRating);
 	}
 }

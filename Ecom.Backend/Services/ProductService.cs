@@ -81,19 +81,22 @@ namespace Ecom.Backend.Services
 			return product;	
 		}
 
-		//public Product Update(ProductUpdateVm product)
-		//{
-		//	//var existProduct = _mapper.Map<Product>(product);
-		//	//if (existProduct == null)
-		//	//{
-		//	//	return null;
-		//	//}
-			
-		//	//var result = _productRepository.Update(existProduct);
-		//	return result;
+		public Product Update(ProductUpdateVm productUp, int id)
+		{
+			var productExist = _productRepository.GetById(id);
+			if (productExist == null)
+			{
+				throw new Exception("Product not exist with " + productExist.ProductID);
+			}
+
+			var product = _mapper.Map<Product>(productUp);
+			product.ProductID = id;
+			product.UpdateDate = DateTime.Now;
+			var result = _productRepository.Update(product);
+			return result;
 
 
-		//}
+		}
 
 		public List<ProductVm> GetFeatureProducts(int number)
 		{

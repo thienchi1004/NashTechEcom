@@ -60,7 +60,7 @@ namespace Ecom.Backend.Repositories
 			if (result > 0)
 			{ return category; }
 			else
-			{ return null; }
+			{ throw new Exception("Category " + category.CategoryID + " can't update"); }
 		}
 	}
 }

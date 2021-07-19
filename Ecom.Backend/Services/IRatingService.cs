@@ -9,7 +9,7 @@ namespace Ecom.Backend.Services
 {
 	public interface IRatingService
 	{
-		Task<IEnumerable<RatingVm>> GetRatingsByProductId(int id);
-		Task<RatingVm> Create(RatingDetailVm newRating);
+		List<RatingVm> GetRatingsByProductId(int id);
+		RatingVm Create(RatingVm newRating);
 	}
 }

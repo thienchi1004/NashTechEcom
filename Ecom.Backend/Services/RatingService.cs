@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ecom.Backend.Models;
 using Ecom.Backend.Repositories;
 using Ecom.Shared.ViewModels;
 using System;
@@ -17,22 +18,25 @@ namespace Ecom.Backend.Services
 			_ratingRepository = ratingRepository;
 			_mapper = mapper;
 		}
-		public Task<RatingVm> Create(RatingDetailVm newRating)
+		public RatingVm Create(RatingVm newRating)
 		{
-			var rating = _mapper.Map<RatingVm>(newRating);
-
+			var rating = _mapper.Map<Rating>(newRating);
+			rating.DateRating = DateTime.Now;
 			var result = _ratingRepository.Create(rating);
 
 			if (result == null)
 			{
 				return null;
 			}
-			return newRating;
+
+			return _mapper.Map<RatingVm>(result);
 		}
 
-		public Task<IEnumerable<RatingVm>> GetRatingsByProductId(int id)
+
+		public List<RatingVm> GetRatingsByProductId(int id)
 		{
-			throw new NotImplementedException();
+			var result = _ratingRepository.GetRatingsByProductId(id);
+			return _mapper.Map<List<RatingVm>>(result);
 		}
 	}
 }

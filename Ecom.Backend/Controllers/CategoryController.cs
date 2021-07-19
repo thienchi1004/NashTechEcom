@@ -16,12 +16,10 @@ namespace Ecom.Backend.Controllers
 	[ApiController]
 	public class CategoryController : ControllerBase
 	{
-		private readonly ICategoryRepository _cateRepo;
 		private readonly ICategoryService _categoryService;
 
-		public CategoryController(ICategoryRepository cateRepo, ICategoryService categoryService)
+		public CategoryController(ICategoryService categoryService)
 		{
-			_cateRepo = cateRepo;
 			_categoryService = categoryService;
 		}
 
@@ -56,33 +54,11 @@ namespace Ecom.Backend.Controllers
 		}
 
 
-
-
-
 		[HttpPut("{id}")]
-		public ActionResult<CategoryVm> Update(CategoryVm categoryVm, int id)
+		public ActionResult<Category> Update(CategoryVm categoryUp, int id)
 		{
-			if (id != categoryVm.CategoryID)
-			{
-				return BadRequest("Parameter was invalid");
-			}
-			var categorytExist = _cateRepo.GetById(id);
-			if (categorytExist == null)
-			{
-				return NotFound();
-			}
-			categorytExist.CategoryID = categoryVm.CategoryID;
-			categorytExist.CategoryName = categoryVm.CategoryName;
-
-			var result = _cateRepo.Update(categorytExist);
-			if (result != null)
-			{
-				return NoContent();
-			}
-			else
-			{
-				return Problem("Can't create category");
-			}
+			_categoryService.Update(categoryUp, id);
+			return NoContent();
 		}
 
 

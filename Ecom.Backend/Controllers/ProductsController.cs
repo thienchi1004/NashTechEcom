@@ -83,25 +83,12 @@ namespace Ecom.Backend.Controllers
 		}
 
 
-		//[HttpPut("{id}")]
-		//public ActionResult<ProductDetailVm> Update(ProductUpdateVm productUp, int id)
-		//{
-		//	var productExist = _productService.GetById(id);
-		//	if (productExist == null)
-		//	{
-		//		return NotFound();
-		//	}
-			
-		//	var result = _productService.Update(id,productUp);
-		//	if (result != null)
-		//	{
-		//		return NoContent();
-		//	}
-		//	else
-		//	{
-		//		return Problem("Can't create product");
-		//	}
-		//}
+		[HttpPut("{id}")]
+		public ActionResult<ProductUpdateVm> Update(ProductUpdateVm productUp, int id)
+		{
+			_productService.Update(productUp, id);
+			return NoContent();
+		}
 
 
 		[HttpDelete("{id}")]

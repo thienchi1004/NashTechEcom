@@ -1,5 +1,6 @@
 ﻿using Ecom.Backend.Models;
 using Ecom.Backend.Repositories;
+using Ecom.Backend.Services;
 using Ecom.Shared.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,49 +17,32 @@ namespace Ecom.Backend.Controllers
 	[ApiController]
 	public class RatingController : ControllerBase
 	{
-		private readonly IRatingRepository _ratingRepo;
-		public RatingController(IRatingRepository ratingRepo)
+        private readonly IRatingService _ratingService;
+		public RatingController(IRatingService ratingService )
 		{
-			_ratingRepo = ratingRepo;
+            _ratingService = ratingService;
 		}
 
         [HttpPost]
 
-        public async Task<ActionResult<RatingVm>> CreateRating(RatingVm ratingVm)
+        public  ActionResult<RatingVm> CreateRating(RatingVm ratingVm)
         {
-            var rating = new Rating()
+            var result = _ratingService.Create(ratingVm);
+
+            if (result == null)
             {
-                Value = ratingVm.Value,
-                Comment = ratingVm.Comment,
-                ProductID = ratingVm.ProductID,
-                DateRating = DateTime.Now
-            };
-            var result = await _ratingRepo.Create(rating);
-            if (result != null)
-			{
-                return Created("api/rating", result.IdRating);
+                return BadRequest();
             }
-            return Problem("Can't create rating");
+
+            return result;
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<RatingVm>>> GetRatingsByProductID(int id)
+        public ActionResult<IEnumerable<RatingVm>> GetRatingsByProductID(int id)
         {
-            var result = await _ratingRepo.GetRatingsByProductId(id);
-            var listRatingVm = new List<RatingVm>();
-            foreach (var item in result)
-            {
-                var ratingVm = new RatingVm()
-                {
-                    Comment= item.Comment,
-                    ProductID = item.ProductID,
-                    DateRating = DateTime.Now,
-                    Value = item.Value
-                };
-                listRatingVm.Add(ratingVm);
-            }
-            return Ok(listRatingVm);
+            var result =  _ratingService.GetRatingsByProductId(id);
+            return Ok(result);
         }
     }
 }

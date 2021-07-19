@@ -57,18 +57,18 @@ namespace Ecom.Backend.Repositories
 
 		public Product GetById(int id)
 		{
-			return _context.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductID == id);
+			return _context.Products.AsNoTracking().Include(p => p.Category).FirstOrDefault(p => p.ProductID == id);
 	
 		}
 
 		public List<Product> GetByCategory(int id)
 		{
-			return _context.Products.Where(p => p.CategoryID==id).ToList();
+			return _context.Products.AsNoTracking().Where(p => p.CategoryID==id).ToList();
 		}
 
 		public List<Product> GetListProduct()
 		{
-			return _context.Products.ToList();
+			return _context.Products.AsNoTracking().ToList();
 		}
 
 		public Product Update(Product product)
@@ -82,7 +82,7 @@ namespace Ecom.Backend.Repositories
 				var category = _context.Categories.Find(product.CategoryID);
 				if (category == null)
 				{
-					return null;
+					throw new Exception("Category " + product.CategoryID + " was not found");
 				}
 			}
 			_context.Products.Update(product);
@@ -90,12 +90,14 @@ namespace Ecom.Backend.Repositories
 			if (result > 0)
 			{ return product; }
 			else
-			{ return null; }
+			{ 
+				throw new Exception("Can't update product with " + product.ProductID); 
+			}
 		}
 
 		public List<Product> GetFeatureProducts(int number)
 		{
-			return _context.Products.OrderByDescending(p => p.RateStar).Take(number).ToList();
+			return _context.Products.AsNoTracking().OrderByDescending(p => p.RateStar).Take(number).ToList();
 		}
 	}
 }

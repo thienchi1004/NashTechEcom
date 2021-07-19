@@ -8,8 +8,6 @@ namespace Ecom.Shared.ViewModels
 	{
         public string ProductDescription { get; set; }
         public float RateStar { get; set; }
-        public int? CategoryID { get; set; }
-        public string CategoryName { get; set; }
         public int Value { get; set; }
     }
 }

@@ -68,9 +68,18 @@ namespace Ecom.Backend.Services
 		}
 
 
-		public Category Update(CategoryVm category)
+		public Category Update(CategoryVm categoryUp, int id)
 		{
-			throw new NotImplementedException();
+			var categoryExist = _categoryRepository.GetById(id);
+			if (categoryExist == null)
+			{
+				throw new Exception("Category not exist with " + categoryExist.CategoryID);
+			}
+
+			var category = _mapper.Map<Category>(categoryUp);
+			category.CategoryID = id;
+			var result = _categoryRepository.Update(category);
+			return result;
 		}
 	}
 }

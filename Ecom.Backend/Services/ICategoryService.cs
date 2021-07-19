@@ -12,7 +12,7 @@ namespace Ecom.Backend.Services
 		List<CategoryVm> GetListCategory();
 		CategoryVm GetById(int id);
 		Category Create(CategoryCreateVm newCategory);
-		Category Update(CategoryVm categoryUp);
+		Category Update(CategoryVm categoryUp, int id);
 		bool Delete(int id);
 	}
 }

@@ -17,7 +17,7 @@ namespace Ecom.Backend.Services
 
 		Product Create(ProductCreateVm newProduct);
 
-		//Product Update(int id, ProductUpdateVm productUp);
+		Product Update(ProductUpdateVm productUp, int id);
 		List<ProductVm> GetFeatureProducts(int number);
 		bool Delete(int id);
 	}

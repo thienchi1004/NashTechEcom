@@ -19,32 +19,40 @@ namespace Ecom.Backend.Repositories
 
 		
 
-		public async Task<Rating> Create(Rating newRating)
+		public Rating Create(Rating newRating)
 		{
-			 _context.Ratings.Add(newRating);
-			await _context.SaveChangesAsync();
+			var productExist = _context.Products.Find(newRating.ProductID);
+			if (productExist == null)
+			{
+				throw new Exception("Product " + newRating.ProductID + " was not found");
+			}
+			var userExist = _context.Users.Find(newRating.UserId);
+			if (userExist == null)
+			{
+				throw new Exception("User " + newRating.UserId + " was not found");
+			}
+			_context.Ratings.Add(newRating);
+			_context.SaveChanges();
 
 			var sumRating = _context.Ratings.Where(x => x.ProductID.Equals(newRating.ProductID)).Average(x => x.Value);
 
-			var product = await _context.Products.FindAsync(newRating.ProductID);
+			var product = _context.Products.Find(newRating.ProductID);
 			product.RateStar = Convert.ToInt32(sumRating);
-			await _context.SaveChangesAsync();
+			_context.SaveChanges();
 
 			return newRating;
 	
 		}	
 
-		public async Task<IEnumerable<Rating>> GetRatingsByProductId(int id)
+		public List<Rating> GetRatingsByProductId(int id)
 		{
-			var ratings = await _context.Ratings
-				.Include(p => p.Product)
+			var ratings = _context.Ratings
+				.Include(p => p.Product).Include(p => p.User)
 				.Where(p => p.ProductID.Equals(id))
 				.AsNoTracking()
-				.ToListAsync();
+				.ToList();
 
-			var result = await _context.Ratings.AsNoTracking().ToListAsync();
-
-			return result;
+			return ratings;
 
 
 		}

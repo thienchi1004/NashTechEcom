@@ -12,9 +12,9 @@ namespace Ecom.Backend.Mappings
 	{
 		public RatingMapper()
 		{
-			CreateMap<RatingVm, Rating>().ReverseMap();
+			CreateMap<RatingVm, Rating>();
 
-			CreateMap<RatingDetailVm, Rating>().ReverseMap();
+			CreateMap<Rating, RatingVm>().ForMember(src => src.UserName, opt => opt.MapFrom(des => des.User.UserName));
 		}
 	}
 }
